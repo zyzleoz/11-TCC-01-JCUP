@@ -19,16 +19,4 @@ java -cp jcup.jar java_cup.Main -parser MeuParser exemplo.cup
 javac -cp jcup.jar *.java
 
 # Executar a classe principal:
-echo "Digite uma expressão:"
-echo "Exemplos:"
-echo "(-10 + 5) - 2;   -> -7"
-echo "(-10 + 5) - -2;  -> -3"
-echo "-(-10 + 5) - -2; ->  7"
-echo "10 - (5 + 2);    ->  3"
-echo "10 - 5 + 2;      ->  7"
-echo "-10 - -5 - -2;   -> -3"
-echo "-10--5--2;       -> -3"
-echo "10  - -(5 + 2);  -> 17"
-echo "-10  - -(5 + 2); -> -3"
-echo "---2--3;        ->  1"
-java -cp .:jcup.jar MeuParser
+java -cp .:jcup.jar MeuParser ./entrada.txt

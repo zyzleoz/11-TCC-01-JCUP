@@ -166,16 +166,6 @@ javac -cp jcup.jar *.java
 # Executar a classe principal:
 echo "Digite uma expressão:"
 echo "Exemplos:"
-echo "(-10 + 5) - 2;   -> -7"
-echo "(-10 + 5) - -2;  -> -3"
-echo "-(-10 + 5) - -2; ->  7"
-echo "10 - (5 + 2);    ->  3"
-echo "10 - 5 + 2;      ->  7"
-echo "-10 - -5 - -2;   -> -3"
-echo "-10--5--2;       -> -3"
-echo "10  - -(5 + 2);  -> 17"
-echo "-10  - -(5 + 2); -> -3"
-echo "---2--3;        ->  1"
 java -cp .:jcup.jar MeuParser
 ```
 
@@ -184,14 +174,3 @@ java -cp .:jcup.jar MeuParser
 
 10. Executar o `executar.sh`:
 - `./executar.sh`
-
-11. Informar expressões matemáticas do tipo: 
-- `1 + (2 - 7);` (é necessário terminar com ";")
-
-- `1 * 7;` (é necessário terminar com ";")
-
-- ```
-  1 + (2
-  - 7);
-  ```
-  (é necessário terminar com ";")

@@ -104,7 +104,7 @@ public class MeuParser extends java_cup.runtime.lr_parser {
 
   public static void main(String[] args) throws Exception {
     Compilador compilador = new Compilador();
-    compilador.compilar();
+    compilador.compilar(args[0]);
   }
 
 

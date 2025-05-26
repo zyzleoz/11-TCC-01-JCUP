@@ -24,7 +24,6 @@ public class Compilador {
             if (fileReader != null)
                 fileReader.close();
         }
-
     }
 
     public void processar(String linha) {

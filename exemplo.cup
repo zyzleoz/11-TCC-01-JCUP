@@ -17,13 +17,13 @@ parser code {:
 :}
 
 terminal Integer INTEIRO;
-terminal MAIS, MENOS, MENOSUNARIO, PTVIRG, PARENTESQ, PARENTDIR;
+terminal MAIS, MENOS, MULTP, DIVIS, RESTO, POTEN, MENOSUNARIO, PTVIRG, PARENTESQ, PARENTDIR;
 
 non terminal inicio;
 non terminal Integer expr;
 
-precedence left MAIS, MENOS;
-precedence right MENOSUNARIO; // Menos unário com maior precedência, associatividade à direita.
+precedence left MAIS, MENOS, MULTP, DIVIS, RESTO;
+precedence right MENOSUNARIO, POTEN; // Menos unário com maior precedência, associatividade à direita.
 
 start with inicio;
 
@@ -32,7 +32,18 @@ inicio ::= expr:e PTVIRG {: System.out.println(e); :}
 
 expr ::= expr:a MAIS expr:b             {: RESULT = a.intValue() + b.intValue(); :}
        | expr:a MENOS expr:b            {: RESULT = a.intValue() - b.intValue(); :}
-       | MENOS expr:a                   {: RESULT = -a; :} %prec MENOSUNARIO       
+       | MENOS expr:a                   {: RESULT = -a; :} %prec MENOSUNARIO  
+       | expr:a MULTP expr:b  {: RESULT = a.intValue() * b.intValue(); :}
+       | expr:a DIVIS expr:b  {: RESULT = a.intValue() / b.intValue(); :}
+       | expr:a RESTO expr:b  {: RESULT = a.intValue() % b.intValue(); :}
+       | expr:a POTEN expr:b  {: 
+           RESULT = new Integer(
+                      (int) Math.pow(
+                        a.intValue(), 
+                        b.intValue()
+                      )
+                    );
+         :}         
        | PARENTESQ expr:a PARENTDIR     {: RESULT = a.intValue(); :}
        | INTEIRO:a                      {: RESULT = a.intValue(); :}
        ;

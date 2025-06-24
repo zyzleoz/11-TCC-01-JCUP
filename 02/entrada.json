@@ -1,0 +1,9 @@
+{
+  "nome": "João",
+  "idade": 30,
+  "habilidades": ["JavaScript", "Python", "SQL"],
+  "endereco": {
+    "cidade": "São Paulo",
+    "numero": 123
+  }
+}

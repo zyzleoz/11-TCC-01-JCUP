@@ -1,0 +1,35 @@
+terminal String STRING;
+terminal Double NUMERO;
+terminal ABRECHAVE, FECHACHAVE, ABRECOLCHETE, FECHACOLCHETE, DOISPONTOS, VIRGULA;
+
+non terminal json, objeto, par, lista_pares, valor, array, lista_valores;
+
+start with json;
+
+json ::= ABRECHAVE objeto FECHACHAVE
+       ;
+
+objeto ::= par
+         | par VIRGULA lista_pares
+         ;
+
+lista_pares ::= par
+              | par VIRGULA lista_pares
+              ;
+
+par ::= STRING DOISPONTOS valor
+      ;
+
+valor ::= STRING
+        | NUMERO
+        | array
+        | json  // para objetos aninhados
+        ;
+
+array ::= ABRECOLCHETE FECHACOLCHETE
+        | ABRECOLCHETE lista_valores FECHACOLCHETE
+        ;
+
+lista_valores ::= valor
+                | valor VIRGULA lista_valores
+                ;

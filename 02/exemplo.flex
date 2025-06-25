@@ -22,10 +22,7 @@ digito = [0-9]
 numero = {digito}+
 string_char = [^\"\\\n\r] // Qualquer caractere exceto aspas, barra invertida, quebra de linha ou retorno de carro
 
-// Correção nesta linha: para ter '\' literal dentro de '[]', você precisa de '\\'
-// Ou seja, `\` literal é `\\` na regex, e dentro de `[]` é `\\`
-// Então, para ter `\` dentro dos caracteres escapáveis: `\\`
-// Os escapes JSON são: \", \\, \/, \b, \f, \n, \r, \t, \uXXXX
+
 escape_char = \\[\"\\/bfnrt] | \\u[0-9a-fA-F]{4} // Adicionado o escape unicode e corrigido a barra invertida e forward slash
 string = \"({string_char}|{escape_char})*\"
 

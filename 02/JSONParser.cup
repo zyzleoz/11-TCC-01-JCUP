@@ -1,0 +1,65 @@
+import java_cup.runtime.*;
+
+parser code {:
+  public static void main(String[] args) throws Exception {
+    if (args.length == 0) {
+      System.err.println("Uso: java JSONParser <arquivo_json>");
+      return;
+    }
+    try {
+      JSONLexer lexer = new JSONLexer(new java.io.FileReader(args[0]));
+      JSONParser parser = new JSONParser(lexer);
+      Object result = parser.parse().value;
+      System.out.println("JSON válido!");
+      // Opcional: imprimir o resultado da análise se você construir uma AST
+      // System.out.println("Resultado da análise: " + result);
+    } catch (Exception e) {
+      System.err.println("Erro ao analisar JSON: " + e.getMessage());
+      e.printStackTrace();
+    }
+  }
+
+  // Método para reportar erros de sintaxe
+  public void syntax_error(Symbol cur_token) {
+    System.err.println("Erro de sintaxe na linha " + (cur_token.left + 1) + ", coluna " + (cur_token.right + 1) + ". Token inesperado: '" + cur_token.value + "'");
+  }
+
+  // Método para reportar erros fatais
+  public void report_fatal_error(String message, Object info) {
+    System.err.println("Erro fatal: " + message);
+  }
+:};
+
+// Terminais (tokens do lexer)
+terminal LCHAVE, RCHAVE, LCOLCH, RCOLCH, DPONTO, VIRGULA;
+terminal TRUE, FALSE, NULL;
+terminal String STRING;
+terminal Integer NUMERO;
+
+// Não-terminais (regras da gramática)
+non terminal json, value, object, members, pair, array, elements;
+
+// Gramática JSON
+json ::= value; // Um documento JSON pode ser um objeto ou um array (ou valor primitivo, mas geralmente se espera objeto/array no nível superior)
+
+value ::= STRING
+        | NUMERO
+        | object
+        | array
+        | TRUE
+        | FALSE
+        | NULL;
+
+object ::= LCHAVE RCHAVE // Objeto vazio
+         | LCHAVE members RCHAVE;
+
+members ::= pair
+          | members VIRGULA pair;
+
+pair ::= STRING DPONTO value;
+
+array ::= LCOLCH RCOLCH // Array vazio
+        | LCOLCH elements RCOLCH;
+
+elements ::= value
+           | elements VIRGULA value;

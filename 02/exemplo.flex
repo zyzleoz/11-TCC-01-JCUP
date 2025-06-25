@@ -16,14 +16,14 @@ import java_cup.runtime.*;
   }
 %}
 
-// Expressões regulares para os tokens JSON
+
 espaco = [ \t\n\r]+
 digito = [0-9]
 numero = {digito}+
-string_char = [^\"\\\n\r] // Qualquer caractere exceto aspas, barra invertida, quebra de linha ou retorno de carro
+string_char = [^\"\\\n\r]
 
 
-escape_char = \\[\"\\/bfnrt] | \\u[0-9a-fA-F]{4} // Adicionado o escape unicode e corrigido a barra invertida e forward slash
+escape_char = \\[\"\\/bfnrt] | \\u[0-9a-fA-F]{4}
 string = \"({string_char}|{escape_char})*\"
 
 %%

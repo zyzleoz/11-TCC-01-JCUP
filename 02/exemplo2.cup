@@ -11,8 +11,6 @@ parser code {:
       exemplo2 parser = new exemplo2(lexer);
       Object result = parser.parse().value;
       System.out.println("JSON válido!");
-      // Opcional: imprimir o resultado da análise se você construir uma AST
-      // System.out.println("Resultado da análise: " + result);
     } catch (Exception e) {
       System.err.println("Erro ao analisar JSON: " + e.getMessage());
       e.printStackTrace();
@@ -36,11 +34,11 @@ terminal TRUE, FALSE, NULL;
 terminal String STRING;
 terminal Integer NUMERO;
 
-// Não-terminais (regras da gramática)
+//regras da gramática
 non terminal json, value, object, members, pair, array, elements;
 
 // Gramática JSON
-json ::= value; // Um documento JSON pode ser um objeto ou um array (ou valor primitivo, mas geralmente se espera objeto/array no nível superior)
+json ::= value;
 
 value ::= STRING
         | NUMERO

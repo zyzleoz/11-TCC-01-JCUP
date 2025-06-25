@@ -5,7 +5,7 @@ INPUT_FILE="entrada.json"
 
 # Limpa arquivos gerados anteriormente
 echo "Limpando arquivos gerados..."
-rm -f *.class *.java sym.java JSONParser.java JSONLexer.java
+rm -f *.class *.java sym.java exemplo2.java exemplo.java
 rm -f jcup.jar jflex.jar
 
 # Baixa as ferramentas JFlex e CUP
@@ -13,15 +13,15 @@ echo "Baixando JFlex e CUP JARs..."
 wget -q https://repo1.maven.org/maven2/de/jflex/jflex/1.8.2/jflex-1.8.2.jar -O jflex.jar
 wget -q https://repo1.maven.org/maven2/com/github/vbmacher/java-cup/11b-20160615/java-cup-11b-20160615.jar -O jcup.jar
 
-echo "Gerando JSONLexer.java com JFlex..."
+echo "Gerando exemplo.java com JFlex..."
 # Gerar o analisador léxico (lexer)
 # É crucial adicionar jcup.jar ao classpath para que JFlex encontre java_cup.runtime.Scanner
-java -cp "jflex.jar:jcup.jar" jflex.Main JSONLexer.flex
+java -cp "jflex.jar:jcup.jar" jflex.Main exemplo.flex
 
-echo "Gerando JSONParser.java e sym.java com CUP..."
+echo "Gerando exemplo2.java e sym.java com CUP..."
 # Gerar o analisador sintático (parser) e a classe de símbolos
 # Use -cp para CUP também, especificando a classe principal java_cup.Main
-java -cp jcup.jar java_cup.Main -parser JSONParser JSONParser.cup
+java -cp jcup.jar java_cup.Main -parser exemplo2 exemplo2.cup
 
 echo "Compilando arquivos Java gerados..."
 # Compilar todos os arquivos Java gerados.
@@ -32,7 +32,7 @@ echo -e "\n--- Executando analisador JSON ---"
 # Executar o analisador.
 # O classpath deve incluir o diretório atual (.) e os JARs do JFlex e CUP.
 # Passe o nome do arquivo JSON de entrada como argumento.
-java -cp ".:jflex.jar:jcup.jar" JSONParser "$INPUT_FILE"
+java -cp ".:jflex.jar:jcup.jar" exemplo2 "$INPUT_FILE"
 
 # Verifica se a execução foi bem-sucedida
 if [ $? -eq 0 ]; then

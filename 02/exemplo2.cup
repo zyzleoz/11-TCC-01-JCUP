@@ -3,12 +3,12 @@ import java_cup.runtime.*;
 parser code {:
   public static void main(String[] args) throws Exception {
     if (args.length == 0) {
-      System.err.println("Uso: java JSONParser <arquivo_json>");
+      System.err.println("Uso: java exemplo2 <arquivo_json>");
       return;
     }
     try {
-      JSONLexer lexer = new JSONLexer(new java.io.FileReader(args[0]));
-      JSONParser parser = new JSONParser(lexer);
+      exemplo lexer = new exemplo(new java.io.FileReader(args[0]));
+      exemplo2 parser = new exemplo2(lexer);
       Object result = parser.parse().value;
       System.out.println("JSON válido!");
       // Opcional: imprimir o resultado da análise se você construir uma AST

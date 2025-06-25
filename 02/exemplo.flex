@@ -1,7 +1,7 @@
 import java_cup.runtime.*;
 
 %%
-%class JSONLexer
+%class exemplo
 %cup
 %line
 %column

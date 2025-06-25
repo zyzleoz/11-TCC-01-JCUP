@@ -20,26 +20,26 @@ import java_cup.runtime.*;
 espaco = [ \t\n\r]+
 digito = [0-9]
 numero = {digito}+
-string_char = [^\"\\\n\r]
+chave_char = [^\"\\\n\r]
 
 
 escape_char = \\[\"\\/bfnrt] | \\u[0-9a-fA-F]{4}
-string = \"({string_char}|{escape_char})*\"
+chave = \"({chave_char}|{escape_char})*\"
 
 %%
 
 // Regras para reconhecimento dos tokens
-"{"             { return symbol(sym.LCHAVE); }
-"}"             { return symbol(sym.RCHAVE); }
-"["             { return symbol(sym.LCOLCH); }
-"]"             { return symbol(sym.RCOLCH); }
-":"             { return symbol(sym.DPONTO); }
+"{"             { return symbol(sym.ABRECHAVES); }
+"}"             { return symbol(sym.FECHACHAVES); }
+"["             { return symbol(sym.ABRECOLCHETES); }
+"]"             { return symbol(sym.FECHACOLCHETES); }
+":"             { return symbol(sym.DOISPONTOS); }
 ","             { return symbol(sym.VIRGULA); }
 "true"          { return symbol(sym.TRUE); }
 "false"         { return symbol(sym.FALSE); }
 "null"          { return symbol(sym.NULL); }
 {numero}        { return symbol(sym.NUMERO, Integer.parseInt(yytext())); }
-{string}        { return symbol(sym.STRING, yytext().substring(1, yytext().length()-1)); }
+{chave}        { return symbol(sym.CHAVE, yytext().substring(1, yytext().length()-1)); }
 {espaco}        { /* ignora espaços em branco */ }
 
 <<EOF>>         { return symbol(sym.EOF); }

@@ -29,35 +29,35 @@ parser code {:
 :};
 
 // Terminais (tokens do lexer)
-terminal LCHAVE, RCHAVE, LCOLCH, RCOLCH, DPONTO, VIRGULA;
+terminal ABRECHAVES, FECHACHAVES, ABRECOLCHETES, FECHACOLCHETES, DOISPONTOS, VIRGULA;
 terminal TRUE, FALSE, NULL;
-terminal String STRING;
+terminal String CHAVE;
 terminal Integer NUMERO;
 
 //regras da gramática
-non terminal json, value, object, members, pair, array, elements;
+non terminal json, valor, objeto, membros, pair, vetor, elementos;
 
 // Gramática JSON
-json ::= value;
+json ::= valor;
 
-value ::= STRING
+valor ::= CHAVE
         | NUMERO
-        | object
-        | array
+        | objeto
+        | vetor
         | TRUE
         | FALSE
         | NULL;
 
-object ::= LCHAVE RCHAVE // Objeto vazio
-         | LCHAVE members RCHAVE;
+objeto ::= ABRECHAVES FECHACHAVES // Objeto vazio
+         | ABRECHAVES membros FECHACHAVES;
 
-members ::= pair
-          | members VIRGULA pair;
+membros ::= pair
+          | membros VIRGULA pair;
 
-pair ::= STRING DPONTO value;
+pair ::= CHAVE DOISPONTOS valor;
 
-array ::= LCOLCH RCOLCH // Array vazio
-        | LCOLCH elements RCOLCH;
+vetor ::= ABRECOLCHETES FECHACOLCHETES // vetor vazio
+        | ABRECOLCHETES elementos FECHACOLCHETES;
 
-elements ::= value
-           | elements VIRGULA value;
+elementos ::= valor
+           | elementos VIRGULA valor;

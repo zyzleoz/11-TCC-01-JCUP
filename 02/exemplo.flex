@@ -1,47 +1,60 @@
-/* Definição: seção para código do usuário. */
-
+/* Importa a classe Symbol que será usada para comunicar os tokens com o CUP */
 import java_cup.runtime.Symbol;
 
 %%
 
-/* Opções e Declarações: seção para diretivas e macros. */
-
-// Diretivas:
+/* Definições e configurações do scanner */
+%class MeuScanner
 %cup
 %unicode
 %line
 %column
-%class MeuScanner
 
-// Macros:
-digito = [0-9]
-inteiro = -?{digito}+
-numero = {inteiro}("."{digito}+)?
 
-palavra = \"([^\"\\]|\\.)*\" 
+%{
+  private Symbol criarSimbolo(int tipo) {
+    return new Symbol(tipo, yyline, yycolumn);
+  }
+
+  private Symbol criarSimbolo(int tipo, Object valor) {
+    return new Symbol(tipo, yyline, yycolumn, valor);
+  }
+%}
+
+/* Macros para facilitar as expressões */
+DIGITO = [0-9]
+NUMERO = {DIGITO}+("."{DIGITO}+)?
+LETRA = [a-zA-Z]
+ASPAS = \"
+ESPACO = [ \t\r\n]+
 
 %%
 
-/* Regras e Ações Associadas: seção de instruções para o analisador léxico. */
+/* Regras léxicas com ações associadas */
 
-{numero} {
-            Double numero = Double.valueOf(yytext());
-            return new Symbol(sym.NUMERO, yyline, yycolumn, numero);
-          }
-{palavra} {
-            String lexema = yytext().substring(1, yytext().length() - 1);
-            return new Symbol(sym.STRING, yyline, yycolumn, lexema);
-          }
-"{"       { return new Symbol(sym.ABRECHAVE); }
-"}"       { return new Symbol(sym.FECHACHAVE); }
-"["       { return new Symbol(sym.ABRECOLCHETE); }
-"]"       { return new Symbol(sym.FECHACOLCHETE); }
-","       { return new Symbol(sym.VIRGULA); }
-":"       { return new Symbol(sym.DOISPONTOS); }
-\n        { /* Ignora nova linha. */ }
-[ \t\r]+  { /* Ignora espaços. */ }
-.         { System.err.println("\n Caractere inválido: " + yytext() +
-                               "\n Linha: " + yyline +
-                               "\n Coluna: " + yycolumn + "\n"); 
-            return null; 
-          }
+{NUMERO}   { return criarSimbolo(sym.NUMERO, Double.valueOf(yytext())); }
+\"[^"]*\" { 
+  String texto = yytext().substring(1, yytext().length() - 1); 
+  return criarSimbolo(sym.STRING, texto); 
+}
+
+"true"     { return criarSimbolo(sym.TRUE); }
+"false"    { return criarSimbolo(sym.FALSE); }
+"null"     { return criarSimbolo(sym.NULL); }
+"{"        { return criarSimbolo(sym.LCHAVE); }
+"}"        { return criarSimbolo(sym.RCHAVE); }
+"["        { return criarSimbolo(sym.LCOLCH); }
+"]"        { return criarSimbolo(sym.RCOLCH); }
+":"        { return criarSimbolo(sym.DPONTO); }
+","        { return criarSimbolo(sym.VIRGULA); }
+
+// Ignorar espaços, tabulações e quebras de linha
+{ESPACO}   { /* ignora */ }
+
+// Qualquer outro caractere é inválido
+. {
+  System.err.println("Caractere inválido: " + yytext() +
+                     " na linha " + (yyline + 1) +
+                     ", coluna " + (yycolumn + 1));
+  return null;
+}

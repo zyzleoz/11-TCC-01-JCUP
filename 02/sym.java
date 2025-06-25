@@ -6,27 +6,33 @@
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int FECHACHAVE = 5;
-  public static final int ABRECOLCHETE = 6;
-  public static final int DOISPONTOS = 8;
-  public static final int ABRECHAVE = 4;
+  public static final int LCOLCH = 4;
+  public static final int TRUE = 8;
+  public static final int NULL = 10;
+  public static final int DPONTO = 6;
+  public static final int STRING = 11;
   public static final int EOF = 0;
-  public static final int STRING = 2;
-  public static final int VIRGULA = 9;
-  public static final int FECHACOLCHETE = 7;
-  public static final int NUMERO = 3;
+  public static final int NUMERO = 12;
+  public static final int VIRGULA = 7;
+  public static final int FALSE = 9;
   public static final int error = 1;
+  public static final int RCHAVE = 3;
+  public static final int RCOLCH = 5;
+  public static final int LCHAVE = 2;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
+  "LCHAVE",
+  "RCHAVE",
+  "LCOLCH",
+  "RCOLCH",
+  "DPONTO",
+  "VIRGULA",
+  "TRUE",
+  "FALSE",
+  "NULL",
   "STRING",
-  "NUMERO",
-  "ABRECHAVE",
-  "FECHACHAVE",
-  "ABRECOLCHETE",
-  "FECHACOLCHETE",
-  "DOISPONTOS",
-  "VIRGULA"
+  "NUMERO"
   };
 }
 

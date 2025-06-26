@@ -1,0 +1,56 @@
+import java_cup.runtime.*;
+
+parser code {:
+  public static void main(String[] args) throws Exception {
+    if (args.length == 0) {
+      System.err.println("Uso: java exemplo2 <arquivo_SQL>");
+      return;
+    }
+    try {
+      exemplo lexer = new exemplo(new java.io.FileReader(args[0]));
+      exemplo2 parser = new exemplo2(lexer);
+      Object result = parser.parse().value;
+      System.out.println("SQL válido!");
+    } catch (Exception e) {
+      System.err.println("Erro ao analisar SQL: " + e.getMessage());
+      e.printStackTrace();
+    }
+  }
+
+  // Método para reportar erros de sintaxe
+  public void syntax_error(Symbol cur_token) {
+    System.err.println("Erro de sintaxe na linha " + (cur_token.left + 1) + ", coluna " + (cur_token.right + 1) + ". Token inesperado: '" + cur_token.value + "'");
+  }
+
+  // Método para reportar erros fatais
+  public void report_fatal_error(String message, Object info) {
+    System.err.println("Erro fatal: " + message);
+  }
+:};
+
+// Terminais (tokens do lexer)
+terminal WHERE, FROM, SELECT, AND, VIRGULA, MAIORQ, MENORQ, ATRIBUIÇÃO, MAIORIGUAL, MENORIGUAL, PONTOVIRG, DIFERENTE, TODOS;
+terminal String ID, STRING, PALAVRA;
+terminal Integer NUMERO;
+
+//regras da gramática
+non terminal query, atributos, filtro, operador;
+
+query ::= SELECT atributos FROM atributos filtro PONTOVIRG;
+
+atributos ::= PALAVRA VIRGULA NUMERO
+            | NUMERO VIRGULA PALAVRA
+            | PALAVRA VIRGULA PALAVRA
+            | PALAVRA
+            | NUMERO;
+
+filtro ::= WHERE atributos operador atributos
+         | WHERE atributos operador atributos AND atributos operador STRING PONTOVIRG
+         |   ;
+
+operador ::= ATRIBUIÇÃO
+            | MAIORQ
+            | MENORQ
+            | MAIORIGUAL
+            | MENORIGUAL
+            | DIFERENTE;
